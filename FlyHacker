@@ -1,0 +1,77 @@
+v1, v2 = pcall(function()
+    return loadstring(game:HttpGet(
+        "https://raw.githubusercontent.com/x0581/Iris-Exploit-Bundle/main/bundle.lua"
+    ))()
+end)
+if not v1 or not v2 then
+    return warn("[Corrupted V4] Iris failed:", v2)
+end
+Iris = v2.Init(game.CoreGui)
+v3 = Iris.State("1")
+v4 = Iris.State(true)
+v5 = Iris.State(false)
+v6 = Iris.State(game:GetService("UserInputService").TouchEnabled)
+v7 = Iris.State(Vector2.new(320, 360))
+Iris:Connect(function()
+    Iris.Window({"Corrupted V4 LOADER"}, {size = v7})
+        Iris.InputText({"rotationSpeed"}, {text = v3})
+        Iris.Checkbox({"noclipfly"}, {isChecked = v4})
+        Iris.Checkbox({"useV3Method (blox fruit, ect...)"}, {isChecked = v5})
+        Iris.Checkbox({"hideKeybind (for mobile, maybe)"}, {isChecked = v6})
+        Iris.Separator()
+        Iris.Text({"Discord: https://discord.gg/hoanghoathanh"})
+        if Iris.Button({"Join Discord"}).clicked then
+            v8 = "https://discord.gg/hoanghoathanh"
+            v9 = "hoanghoathanh"
+            v10 = game:GetService("HttpService"):JSONEncode({
+                cmd = "INVITE_BROWSER",
+                args = { code = v9 },
+                nonce = tostring(math.random(100000, 999999))
+            })
+            
+            v11 = pcall(function()
+                if syn and syn.request then
+                    syn.request({Url = "http://127.0.0.1:6463/rpc?v=1", Method = "POST", Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}, Body = v10})
+                elseif http and http.request then
+                    http.request({Url = "http://127.0.0.1:6463/rpc?v=1", Method = "POST", Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}, Body = v10})
+                elseif request then
+                    request({Url = "http://127.0.0.1:6463/rpc?v=1", Method = "POST", Headers = {["Content-Type"] = "application/json", ["Origin"] = "https://discord.com"}, Body = v10})
+                else
+                    error("No request API")
+                end
+            end)
+            
+            if not v11 then
+                if setclipboard then
+                    setclipboard(v8)
+                    Iris.Text({"Link copied to clipboard!"})
+                else
+                    Iris.Text({"Could not open browser or copy link."})
+                end
+            end
+        end
+        
+        Iris.Separator()
+        
+        if Iris.Button({"LOAD"}).clicked then
+            v12 = getgenv and getgenv() or _G
+            v12.rotationSpeed = tonumber(v3.value) or 1
+            v12.noclipfly     = v4.value
+            v12.useV3Method   = v5.value
+            v12.hideKeybind   = v6.value
+            
+            task.spawn(function()
+                v13, v14 = pcall(function()
+                    loadstring(game:HttpGet(
+                        "https://gist.githubusercontent.com/linhmcfake/e3503526696f28efccb70ebe590b4605/raw/gistfile1.txt" -- source code moved to gist, yeah
+                    ))()
+                end)
+                if not v13 then
+                    warn("[Corrupted V4] payload load failed:", v14)
+                end
+            end)
+        end
+    Iris.End()
+end)
+
+print("iris loaded u should report bug on discord if have any bugs!")
